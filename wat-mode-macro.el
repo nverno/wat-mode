@@ -34,7 +34,7 @@ Its arguments should follow the `pp' convention, e.g.,
 
 
 (defmacro define-wat-macro (name args &rest body)
-    "Extends wat syntax with simple macro expansions ('wat-macros').
+  "Extends wat syntax with simple macro expansions ('wat-macros').
 
 NAME: the macro's name (to be referenced in later wat code)
 ARGS: an in-line argument list to the macro.
@@ -49,10 +49,10 @@ Quasiquote works as you'd expect, e.g.,:
 wat-macros can be evaluated in the current session with `eval-last-sexp'
 and expanded in place by invoking `wat-macro-expand' with point at the
 start of the form."
-    (let ((tag (make-symbol *wat-macro-tag*))
-	  (name-string (symbol-name name)))
-      `(defmacro ,name ,(append args '(&rest body))
-	 (backquote (,tag ,name-string ,@body)))))
+  (let ((tag (make-symbol *wat-macro-tag*))
+	(name-string (symbol-name name)))
+    `(defmacro ,name ,(append args '(&rest body))
+       (backquote (,tag ,name-string ,@body)))))
 
 
 (defalias '@ 'define-wat-macro
@@ -68,17 +68,17 @@ Otherwise, use s-expression preceding point.
 If an error occurs during macro expansion, re-insert the original form."
   (interactive)
   (save-excursion
-  (if forward
-      (kill-sexp 1)
+    (if forward
+        (kill-sexp 1)
       (backward-kill-sexp))
-  (condition-case nil
-      (let ((exp (read (current-kill 0))))
-	(progn
-	  (wat-output (macroexpand-all exp)
-		      (current-buffer))))
-	 ;; (indent-region (point-min) (point-max) nil)))
+    (condition-case nil
+        (let ((exp (read (current-kill 0))))
+	  (progn
+	    (wat-output (macroexpand-all exp)
+		        (current-buffer))))
+      ;; (indent-region (point-min) (point-max) nil)))
       ('error (message "Invalid expression")
-	     (insert (current-kill 0))))))
+	      (insert (current-kill 0))))))
 
 
 (defun wat-strip-wrapper-1 ()
@@ -131,8 +131,8 @@ the wrapping parens.  So the expanded macro above becomes:
   "Remove escape characters created during macro expansion."
   (interactive)
   (save-excursion
-  (while (search-forward "\\" nil t)
-       (replace-match "" t nil))))
+    (while (search-forward "\\" nil t)
+      (replace-match "" t nil))))
 
 
 (defun wat-mode-macro-expand ()

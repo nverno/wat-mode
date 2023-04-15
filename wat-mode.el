@@ -28,16 +28,16 @@
 
 
 (defvaralias 'wat-mode-indent-offset 'lisp-indent-offset
-    "Make `wat-mode-indent-offset' alias the underlying lisp indentation behavior.")
+  "Make `wat-mode-indent-offset' alias the underlying lisp indentation behavior.")
 
 (defvar wat-mode-syntax-table
   (let ((table (make-syntax-table lisp-mode-syntax-table)))
     ;; update identifier character class
     ;; to support word jumps
     (mapc #'(lambda (c)
-          (modify-syntax-entry c "w" table))
-      '(?! ?# ?$ ?% ?\' ?* ?+ ?- ?. ?\/ ?:
-        ?< ?= ?> ?\\ ?? ?@ ?^ ?_ ?\` ?| ?~))
+              (modify-syntax-entry c "w" table))
+          '(?! ?# ?$ ?% ?\' ?* ?+ ?- ?. ?\/ ?:
+               ?< ?= ?> ?\\ ?? ?@ ?^ ?_ ?\` ?| ?~))
 
     ;; enable wat block comments
     (modify-syntax-entry ?\(  "()1nb" table)
@@ -69,7 +69,7 @@
     (cons wat-mode-font-lock-func-type-regex      'font-lock-type-face)
     (cons wat-mode-font-lock-global-type-regex    'font-lock-type-face)
     (cons wat-mode-font-lock-val-type-regex       'font-lock-type-face)))
-   "`wat-mode' highlighting level 2 of 4.
+  "`wat-mode' highlighting level 2 of 4.
 
      Highlights all core keywords minus numerical and memory instructions.")
 
@@ -109,13 +109,10 @@
   "Keymap for `wat-mode', derived from `lisp-mode'.")
 
 
+;;;###autoload
 (define-derived-mode wat-mode lisp-mode "wat-mode"
   "Major mode for editing WebAssembly's text encoding."
-  (use-local-map wat-mode-map)
-  (set (make-local-variable 'font-lock-defaults)
-       '(wat-mode-font-lock-keywords))
-  (set-syntax-table wat-mode-syntax-table)
-  "`wat-mode', an Emacs major mode for editing WebAssembly's text format")
+  (setq-local font-lock-defaults '(wat-mode-font-lock-keywords)))
 
 
 ;;;###autoload
